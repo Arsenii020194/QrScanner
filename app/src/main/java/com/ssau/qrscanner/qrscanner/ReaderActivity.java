@@ -29,14 +29,25 @@ public class ReaderActivity extends AppCompatActivity {
             public void onClick(View v) {
                 IntentIntegrator integrator = new IntentIntegrator(activity);
                 integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-                integrator.setPrompt("Scan");
                 integrator.setCameraId(0);
-                integrator.setOrientationLocked(false);
-                integrator.setBeepEnabled(false);
-                integrator.setBarcodeImageEnabled(false);
+                integrator.setOrientationLocked(true);
+                integrator.setBeepEnabled(true);
+                integrator.setCaptureActivity(CaptureActivityPortrait.class);
                 integrator.initiateScan();
             }
         });
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        qrView.setText(savedInstanceState.getCharSequence("textView"));
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putCharSequence("textView", qrView.getText());
     }
 
     @Override
